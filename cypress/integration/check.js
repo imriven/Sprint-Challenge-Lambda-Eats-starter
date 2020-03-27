@@ -19,6 +19,10 @@ describe("Pizza Form Test", function() {
       .check()
       .should("be.checked");
 
+    cy.get("textarea[data-cy=instructions]")
+      .type("Gimme")
+      .should("have.value", "Gimme");
+
     cy.get("button[data-cy=submit]").click();
     cy.wait(1000);
   });

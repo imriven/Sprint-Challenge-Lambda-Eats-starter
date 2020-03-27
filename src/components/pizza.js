@@ -2,6 +2,78 @@ import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
 import * as yup from "yup";
+import Styled from "styled-components"
+
+//styling
+
+const AllContainer = Styled.div`
+display: flex;
+justify-content:center;
+`
+
+const SuperContainer = Styled.div`
+display: flex;
+margin:5%;
+padding: 5%;
+border: 1px solid black;
+`
+const InputDiv = Styled.div`
+display:flex;
+flex-wrap: no wrap;
+align-content:center
+margin:2%;
+padding:2%;
+width:100%;
+`
+const AwesomeInputs = Styled.input`
+width: 90%;
+padding: 7px 10%;
+box-sizing: border-box;
+background-color:azure; 
+border-radius: 10px;
+margin-top: 5%;
+`
+const AwesomeSelect = Styled.select`
+display:flex;
+width: 100%;
+height: 30px;
+background-color:azure; 
+margin-top:5%
+`
+
+const SelectDiv = Styled.div`
+display:flex;
+justify-content:center;
+width: 50%;
+`
+
+const Button = Styled.button`
+font-size: .8em;
+margin: 2%;
+padding: 0.8em 1.2em;
+border-radius: 8px;
+box-shadow: 3px 5px 6px Navy;
+display:flex;
+justify-content:center;
+`
+
+const ButtonDiv = Styled.div`
+display:flex;
+align-items:center;
+justify-content:center;
+width:100%;
+`;
+
+const ErrorsDiv = Styled.div`
+display:flex;
+`
+const Errorp = Styled.p`
+color: red;
+text-transform:uppercase;
+font-size:.7rems;
+`
+
+
 
 const formSchema = yup.object().shape({
   name: yup
@@ -85,7 +157,11 @@ function Pizza() {
   
 
   return (
+
+    <SuperContainer>
+
     <form onSubmit={formSubmit}>
+      <InputDiv>
       <label htmlFor="name">
         Please Enter Your Name:
         <input
@@ -99,7 +175,8 @@ function Pizza() {
         />
         {errors.name.length > 0 ? <p>{errors.name}</p> : null}
       </label>
-
+    </InputDiv>
+    <InputDiv>
       <label htmlFor="Pizza Size">
         What size Pizza would you like? Required
         <select
@@ -115,7 +192,8 @@ function Pizza() {
           <option value="18 inch">18 inch</option>
         </select>
       </label>
-
+    </InputDiv>
+    <InputDiv>
       <label htmlFor="sauce">
         What Pizza Sauce would you like? Required Tomato
         <input
@@ -151,7 +229,8 @@ function Pizza() {
           checked={formState.sauce ==="ranch"}
         ></input>
       </label>
-
+</InputDiv>
+<InputDiv>
       <label htmlFor="Toppings">
         Choose up to Ten Toppings:
         <input
@@ -254,7 +333,8 @@ function Pizza() {
         />
         Artichoke Hearts
       </label>
-
+</InputDiv>
+<InputDiv>
       <label htmlFor="Instructions">
         Special Instructions
         <textarea
@@ -266,8 +346,12 @@ function Pizza() {
           onChange={handleFormChange}
         />
       </label>
-      <button data-cy="submit" disabled={buttonDisabled}>Submit Deliciousness!</button>
+      </InputDiv>
+      <ButtonDiv>
+      <Button data-cy="submit" disabled={buttonDisabled}>Submit Deliciousness!</Button>
+      </ButtonDiv>
     </form>
+    </SuperContainer>
   );
 }
 
