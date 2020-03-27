@@ -1,15 +1,40 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
+import axios from "axios";
+import * as yup from "yup";
+
+
+const [errors, setErrors] = useState({
+    name: "",
+    size: "",
+    sauce: "",
+    toppings: "",
+    instructions: ""
+});
+
+const [formState, setFormState] = useState({
+    name: "",
+    size: "",
+    sauce: "",
+    toppings: "",
+    instructions: ""
+});
+
+const [buttonDisabled, setButtonDisabled] = useState(true);
+
+const [post, setPost] = useState([]);
+
+
 
 const Pizza = () => {
   return (
-    <>
+    <form onSubmit= "">
       <label htmlFor="name">
         Please Enter Your Name:
         <input
           id="name"
           type="text"
           name="name"
-          value=""
+          value="{formState.name}"
           onChange=""
           placeholder="Name"
         />
@@ -17,7 +42,7 @@ const Pizza = () => {
 
       <label htmlFor="Pizza Size">
         What size Pizza would you like? Required
-        <select data-cy="" value="" id="size" name="" onChange="">
+        <select data-cy="" value="{formState.size}" id="size" name="size" onChange="">
           <option value="">Select One</option>
           <option value="personal">Personal</option>
           <option value="12 inch">12 inch</option>
@@ -47,129 +72,129 @@ const Pizza = () => {
           type="checkbox"
           data-cy=""
           name="pepperoni"
-          checked=""
+          checked="{formState.pepperoni}"
           onChange=""
-        />{" "}
+        />
         Pepperoni
         <input
           type="checkbox"
           data-cy=""
           name="sausage"
-          checked=""
+          checked="{formState.sausage}"
           onChange=""
-        />{" "}
+        />
         Sausage
         <input
           type="checkbox"
           data-cy=""
-          name="canadian bacon"
-          checked=""
+          name="bacon"
+          checked="{formState.bacon}"
           onChange=""
-        />{" "}
+        />
         Canadian Bacon
         <input
           type="checkbox"
           data-cy=""
-          name="grilled chicken"
-          checked=""
+          name="chicken"
+          checked="{formState.chicken}"
           onChange=""
-        />{" "}
+        />
         Grilled Chicken
         <input
           type="checkbox"
           data-cy=""
-          name="boiled egg"
-          checked=""
+          name="egg"
+          checked="{formState.egg}"
           onChange=""
-        />{" "}
+        />
         Boiled Eggs
         <input
           type="checkbox"
           data-cy=""
           name="oysters"
-          checked=""
+          checked="{formState.oysters}"
           onChange=""
-        />{" "}
+        />
         Oysters
         <input
           type="checkbox"
           data-cy=""
           name="shrimp"
-          checked=""
+          checked="{formState.shrimp}"
           onChange=""
-        />{" "}
+        />
         Shrimp
         <input
           type="checkbox"
           data-cy=""
           name="calamari"
-          checked=""
+          checked="{formState.calamari}"
           onChange=""
-        />{" "}
+        />
         Calamari
         <input
           type="checkbox"
           data-cy=""
-          name="fried mozzarella"
-          checked=""
+          name="mozzarella"
+          checked="{formState.mozzarella}"
           onChange=""
-        />{" "}
+        />
         Fried Mozzarella Sticks
         <input
           type="checkbox"
           data-cy=""
           name="onions"
-          checked=""
+          checked="{formState.onions}"
           onChange=""
-        />{" "}
+        />
         Onions
         <input
           type="checkbox"
           data-cy=""
           name="peppers"
-          checked=""
+          checked="{formState.peppers}"
           onChange=""
-        />{" "}
+        />
         Tri-Peppers (orange, yellow, red)
         <input
           type="checkbox"
           data-cy=""
           name="pineapple"
-          checked=""
+          checked="{formState.pineapple}"
           onChange=""
-        />{" "}
+        />
         Pineapple
         <input
           type="checkbox"
           data-cy=""
           name="spinach"
-          checked=""
+          checked="{formState.spinach}"
           onChange=""
-        />{" "}
+        />
         Spinach
         <input
           type="checkbox"
           data-cy=""
           name="artichoke"
-          checked=""
+          checked="{formState.artichoke}"
           onChange=""
-        />{" "}
+        />
         Artichoke Hearts
       </label>
 
       <label htmlFor="Instructions">
         Special Instructions
         <textarea
-          id="motivation"
-          name="motivation"
+          id="instructions"
+          name="instructions"
           placeholder="Is there anything else you need?"
-          value=""
+          value="{formState.instructions}"
           onChange=""
         />{" "}
       </label>
 
       <button>Submit Deliciousness!</button>
-    </>
+    </form>
   );
 };
 export default Pizza;
