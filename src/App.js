@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, NavLink, Link } from "react-router-dom";
+import { Route, NavLink } from "react-router-dom";
 import Home from "./components/home";
 import Pizza from "./components/pizza";
 import Success from "./components/success";
