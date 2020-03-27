@@ -8,23 +8,26 @@ const App = () => {
   return (
     <>
       <nav>
-        <h3>Lambda Eats</h3>
+        <h1>Lambda Eats</h1>
         <div>
-          {/* 
           <NavLink to="/">Home</NavLink>
-            <NavLink to={Pizza} >Order</NavLink> 
-          */}
+          <NavLink to="/pizza" >Order</NavLink> 
         </div>
       </nav>
-
+    <div>
       {/* Routes / Paths */}
       <Route exact path="/">
         <Home />
       </Route>
-      <Route>
-        <Pizza />{" "}
+      <Route path="/pizza">
+       <Pizza />
       </Route>
+      <Route path="/success">
+       <Success />
+      </Route>
+      </div>
     </>
   );
 };
+
 export default App;

@@ -1,48 +1,63 @@
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import * as yup from "yup";
 
+function Pizza() {
+  const [errors, setErrors] = useState({
+    name: ""
+  });
 
-const [errors, setErrors] = useState({
+  const [formState, setFormState] = useState({
     name: "",
     size: "",
     sauce: "",
-    toppings: "",
     instructions: ""
-});
+  });
 
-const [formState, setFormState] = useState({
-    name: "",
-    size: "",
-    sauce: "",
-    toppings: "",
-    instructions: ""
-});
+  const [buttonDisabled, setButtonDisabled] = useState(true);
 
-const [buttonDisabled, setButtonDisabled] = useState(true);
+  const [databaseResponse, setDatabaseResponse] = useState();
 
-const [post, setPost] = useState([]);
+  const handleFormChange = (e) => {
+    e.persist();
+    const newFormData = {
+        ...formState,
+        [e.target.name]:
+          e.target.type === "checkbox" ? e.target.checked : e.target.value
+      };
+      validateChange(e);
+      setFormState(newFormData);
+    };
 
 
+  const submitForm = event => {
+    event.preventDefault();
+    // More code here
+  };
 
-const Pizza = () => {
   return (
-    <form onSubmit= "">
+    <form onSubmit={submitForm}>
       <label htmlFor="name">
         Please Enter Your Name:
         <input
           id="name"
           type="text"
           name="name"
-          value="{formState.name}"
-          onChange=""
+          value={formState.name}
+          onChange={handleFormChange}
           placeholder="Name"
         />
       </label>
 
       <label htmlFor="Pizza Size">
         What size Pizza would you like? Required
-        <select data-cy="" value="{formState.size}" id="size" name="size" onChange="">
+        <select
+          data-cy=""
+          value={formState.size}
+          id="size"
+          name="size"
+          onChange={handleFormChange}
+        >
           <option value="">Select One</option>
           <option value="personal">Personal</option>
           <option value="12 inch">12 inch</option>
@@ -50,20 +65,36 @@ const Pizza = () => {
         </select>
       </label>
 
-      <label htmlFor="Pizza Sauce">
-        What Pizza Sauce would you like? Required
-        <input type="radio" value="" name="tomato" onChange="" checked>
-          Tomato Sauce
-        </input>
-        <input type="radio" value="" name="pesto" onChange="">
-          Pesto Sauce
-        </input>
-        <input type="radio" value="" name="olive oil" onChange="">
-          Olive Oil Sauce
-        </input>
-        <input type="radio" value="" name="ranch" onChange="">
-          Ranch Sauce
-        </input>
+      <label htmlFor="sauce">
+        What Pizza Sauce would you like? Required Tomato{" "}
+        <input
+          type="radio"
+          value="tomato"
+          name="sauce"
+          onChange={handleFormChange}
+          checked
+        ></input>
+        Olive Oil{" "}
+        <input
+          type="radio"
+          value="oliveOil"
+          name="sauce"
+          onChange={handleFormChange}
+        ></input>
+        Pesto{" "}
+        <input
+          type="radio"
+          value="pesto"
+          name="sauce"
+          onChange={handleFormChange}
+        ></input>
+        Ranch{" "}
+        <input
+          type="radio"
+          value="ranch"
+          name="sauce"
+          onChange={handleFormChange}
+        ></input>
       </label>
 
       <label htmlFor="Toppings">
@@ -72,7 +103,7 @@ const Pizza = () => {
           type="checkbox"
           data-cy=""
           name="pepperoni"
-          checked="{formState.pepperoni}"
+          checked={formState.pepperoni}
           onChange=""
         />
         Pepperoni
@@ -80,7 +111,7 @@ const Pizza = () => {
           type="checkbox"
           data-cy=""
           name="sausage"
-          checked="{formState.sausage}"
+          checked={formState.sausage}
           onChange=""
         />
         Sausage
@@ -88,7 +119,7 @@ const Pizza = () => {
           type="checkbox"
           data-cy=""
           name="bacon"
-          checked="{formState.bacon}"
+          checked={formState.bacon}
           onChange=""
         />
         Canadian Bacon
@@ -96,7 +127,7 @@ const Pizza = () => {
           type="checkbox"
           data-cy=""
           name="chicken"
-          checked="{formState.chicken}"
+          checked={formState.chicken}
           onChange=""
         />
         Grilled Chicken
@@ -104,7 +135,7 @@ const Pizza = () => {
           type="checkbox"
           data-cy=""
           name="egg"
-          checked="{formState.egg}"
+          checked={formState.egg}
           onChange=""
         />
         Boiled Eggs
@@ -112,7 +143,7 @@ const Pizza = () => {
           type="checkbox"
           data-cy=""
           name="oysters"
-          checked="{formState.oysters}"
+          checked={formState.oysters}
           onChange=""
         />
         Oysters
@@ -120,7 +151,7 @@ const Pizza = () => {
           type="checkbox"
           data-cy=""
           name="shrimp"
-          checked="{formState.shrimp}"
+          checked={formState.shrimp}
           onChange=""
         />
         Shrimp
@@ -128,7 +159,7 @@ const Pizza = () => {
           type="checkbox"
           data-cy=""
           name="calamari"
-          checked="{formState.calamari}"
+          checked={formState.calamari}
           onChange=""
         />
         Calamari
@@ -136,7 +167,7 @@ const Pizza = () => {
           type="checkbox"
           data-cy=""
           name="mozzarella"
-          checked="{formState.mozzarella}"
+          checked={formState.mozzarella}
           onChange=""
         />
         Fried Mozzarella Sticks
@@ -144,7 +175,7 @@ const Pizza = () => {
           type="checkbox"
           data-cy=""
           name="onions"
-          checked="{formState.onions}"
+          checked={formState.onions}
           onChange=""
         />
         Onions
@@ -152,7 +183,7 @@ const Pizza = () => {
           type="checkbox"
           data-cy=""
           name="peppers"
-          checked="{formState.peppers}"
+          checked={formState.peppers}
           onChange=""
         />
         Tri-Peppers (orange, yellow, red)
@@ -160,7 +191,7 @@ const Pizza = () => {
           type="checkbox"
           data-cy=""
           name="pineapple"
-          checked="{formState.pineapple}"
+          checked={formState.pineapple}
           onChange=""
         />
         Pineapple
@@ -168,7 +199,7 @@ const Pizza = () => {
           type="checkbox"
           data-cy=""
           name="spinach"
-          checked="{formState.spinach}"
+          checked={formState.spinach}
           onChange=""
         />
         Spinach
@@ -176,7 +207,7 @@ const Pizza = () => {
           type="checkbox"
           data-cy=""
           name="artichoke"
-          checked="{formState.artichoke}"
+          checked={formState.artichoke}
           onChange=""
         />
         Artichoke Hearts
@@ -188,13 +219,14 @@ const Pizza = () => {
           id="instructions"
           name="instructions"
           placeholder="Is there anything else you need?"
-          value="{formState.instructions}"
-          onChange=""
-        />{" "}
+          value={formState.instructions}
+          onChange={handleFormChange}
+        />
       </label>
 
-      <button>Submit Deliciousness!</button>
+      <button disabled={buttonDisabled}>Submit Deliciousness!</button>
     </form>
   );
-};
+}
+
 export default Pizza;
