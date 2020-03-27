@@ -3,12 +3,17 @@ import React from "react";
 const Pizza = () => {
   return (
     <>
-
-<label htmlFor="name">
-    Please Enter Your Name:
+      <label htmlFor="name">
+        Please Enter Your Name:
         <input
-          id="name" type="text" name="name" value="" onChange="" placeholder="Name"
-        /></label>
+          id="name"
+          type="text"
+          name="name"
+          value=""
+          onChange=""
+          placeholder="Name"
+        />
+      </label>
 
       <label htmlFor="Pizza Size">
         What size Pizza would you like? Required
