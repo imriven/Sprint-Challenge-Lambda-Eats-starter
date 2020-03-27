@@ -2,6 +2,13 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import * as yup from "yup";
 
+const formSchema = yup.object().shape({
+  name: yup
+    .string()
+    .min(2, "Please enter at least 2 letters")
+    .required("Please enter your name")
+});
+
 function Pizza() {
   const [errors, setErrors] = useState({
     name: ""
@@ -18,17 +25,66 @@ function Pizza() {
 
   const [databaseResponse, setDatabaseResponse] = useState();
 
-  const handleFormChange = (e) => {
+  useEffect(() => {
+    formSchema.isValid(formState).then(valid => {
+      setButtonDisabled(!valid);
+    });
+  }, [formState]);
+
+  useEffect(() => {
+    console.log("success", databaseResponse);
+  }, [databaseResponse]);
+
+  const validateChange = e => {
+    yup
+      .reach(formSchema, e.target.name)
+      .validate(e.target.value)
+      .then(valid => {
+        setErrors({
+          ...errors,
+          [e.target.name]: ""
+        });
+      })
+      .catch(err => {
+        setErrors({
+          ...errors,
+          [e.target.name]: err.errors
+        });
+      });
+  };
+
+  const formSubmit = e => {
+    e.preventDefault();
+    axios
+      .post("https://reqres.in/api/users", formState)
+      .then(res => {
+        setDatabaseResponse(res.data);
+        console.log("success", databaseResponse);
+
+        setFormState({
+          name: "",
+          size: "",
+          sauce: "",
+          instructions: ""
+        });
+      })
+      .catch(err => {
+        console.log(err.res);
+      });
+  };
+
+  const handleFormChange = e => {
     e.persist();
     const newFormData = {
-        ...formState,
-        [e.target.name]:
-          e.target.type === "checkbox" ? e.target.checked : e.target.value
-      };
-      validateChange(e);
-      setFormState(newFormData);
+      ...formState,
+      [e.target.name]:
+        e.target.type === "checkbox" ? e.target.checked : e.target.value
     };
-
+    if(e.target.name === "name") {
+      validateChange(e)
+    }
+    setFormState(newFormData);
+  };
 
   const submitForm = event => {
     event.preventDefault();
@@ -36,7 +92,7 @@ function Pizza() {
   };
 
   return (
-    <form onSubmit={submitForm}>
+    <form onSubmit={formSubmit}>
       <label htmlFor="name">
         Please Enter Your Name:
         <input
@@ -47,6 +103,7 @@ function Pizza() {
           onChange={handleFormChange}
           placeholder="Name"
         />
+        {errors.name.length > 0 ? <p>{errors.name}</p> : null}
       </label>
 
       <label htmlFor="Pizza Size">
@@ -69,10 +126,10 @@ function Pizza() {
         What Pizza Sauce would you like? Required Tomato{" "}
         <input
           type="radio"
-          value="tomato"
+          value={formState.sauce}
           name="sauce"
           onChange={handleFormChange}
-          checked
+      
         ></input>
         Olive Oil{" "}
         <input
@@ -80,6 +137,7 @@ function Pizza() {
           value="oliveOil"
           name="sauce"
           onChange={handleFormChange}
+          checked = {true}
         ></input>
         Pesto{" "}
         <input
@@ -104,7 +162,7 @@ function Pizza() {
           data-cy=""
           name="pepperoni"
           checked={formState.pepperoni}
-          onChange=""
+          
         />
         Pepperoni
         <input
@@ -112,7 +170,6 @@ function Pizza() {
           data-cy=""
           name="sausage"
           checked={formState.sausage}
-          onChange=""
         />
         Sausage
         <input
@@ -120,7 +177,6 @@ function Pizza() {
           data-cy=""
           name="bacon"
           checked={formState.bacon}
-          onChange=""
         />
         Canadian Bacon
         <input
@@ -128,7 +184,6 @@ function Pizza() {
           data-cy=""
           name="chicken"
           checked={formState.chicken}
-          onChange=""
         />
         Grilled Chicken
         <input
@@ -136,7 +191,6 @@ function Pizza() {
           data-cy=""
           name="egg"
           checked={formState.egg}
-          onChange=""
         />
         Boiled Eggs
         <input
@@ -144,7 +198,6 @@ function Pizza() {
           data-cy=""
           name="oysters"
           checked={formState.oysters}
-          onChange=""
         />
         Oysters
         <input
@@ -152,7 +205,6 @@ function Pizza() {
           data-cy=""
           name="shrimp"
           checked={formState.shrimp}
-          onChange=""
         />
         Shrimp
         <input
@@ -160,7 +212,6 @@ function Pizza() {
           data-cy=""
           name="calamari"
           checked={formState.calamari}
-          onChange=""
         />
         Calamari
         <input
@@ -168,7 +219,6 @@ function Pizza() {
           data-cy=""
           name="mozzarella"
           checked={formState.mozzarella}
-          onChange=""
         />
         Fried Mozzarella Sticks
         <input
@@ -176,7 +226,6 @@ function Pizza() {
           data-cy=""
           name="onions"
           checked={formState.onions}
-          onChange=""
         />
         Onions
         <input
@@ -184,7 +233,6 @@ function Pizza() {
           data-cy=""
           name="peppers"
           checked={formState.peppers}
-          onChange=""
         />
         Tri-Peppers (orange, yellow, red)
         <input
@@ -192,7 +240,6 @@ function Pizza() {
           data-cy=""
           name="pineapple"
           checked={formState.pineapple}
-          onChange=""
         />
         Pineapple
         <input
@@ -200,7 +247,6 @@ function Pizza() {
           data-cy=""
           name="spinach"
           checked={formState.spinach}
-          onChange=""
         />
         Spinach
         <input
@@ -208,7 +254,6 @@ function Pizza() {
           data-cy=""
           name="artichoke"
           checked={formState.artichoke}
-          onChange=""
         />
         Artichoke Hearts
       </label>
@@ -223,7 +268,7 @@ function Pizza() {
           onChange={handleFormChange}
         />
       </label>
-
+      <pre>{JSON.stringify(databaseResponse, null, 2)}</pre>
       <button disabled={buttonDisabled}>Submit Deliciousness!</button>
     </form>
   );
