@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
 import axios from "axios";
 import * as yup from "yup";
 
@@ -24,6 +25,8 @@ function Pizza() {
   const [buttonDisabled, setButtonDisabled] = useState(true);
 
   const [databaseResponse, setDatabaseResponse] = useState();
+
+  const history = useHistory()
 
   useEffect(() => {
     formSchema.isValid(formState).then(valid => {
@@ -59,14 +62,7 @@ function Pizza() {
       .post("https://reqres.in/api/users", formState)
       .then(res => {
         setDatabaseResponse(res.data);
-        console.log("success", databaseResponse);
-
-        setFormState({
-          name: "",
-          size: "",
-          sauce: "",
-          instructions: ""
-        });
+        history.push("/success")
       })
       .catch(err => {
         console.log(err.res);
@@ -86,10 +82,7 @@ function Pizza() {
     setFormState(newFormData);
   };
 
-  const submitForm = event => {
-    event.preventDefault();
-    // More code here
-  };
+  
 
   return (
     <form onSubmit={formSubmit}>
@@ -102,6 +95,7 @@ function Pizza() {
           value={formState.name}
           onChange={handleFormChange}
           placeholder="Name"
+          data-cy="name"
         />
         {errors.name.length > 0 ? <p>{errors.name}</p> : null}
       </label>
@@ -123,21 +117,22 @@ function Pizza() {
       </label>
 
       <label htmlFor="sauce">
-        What Pizza Sauce would you like? Required Tomato{" "}
+        What Pizza Sauce would you like? Required Tomato
         <input
           type="radio"
-          value={formState.sauce}
+          value="tomato"
           name="sauce"
           onChange={handleFormChange}
+          checked={formState.sauce ==="tomato"}
       
         ></input>
-        Olive Oil{" "}
+        Olive Oil
         <input
           type="radio"
           value="oliveOil"
           name="sauce"
           onChange={handleFormChange}
-          checked = {true}
+          checked={formState.sauce ==="oliveOil"}
         ></input>
         Pesto{" "}
         <input
@@ -145,6 +140,7 @@ function Pizza() {
           value="pesto"
           name="sauce"
           onChange={handleFormChange}
+          checked={formState.sauce ==="pesto"}
         ></input>
         Ranch{" "}
         <input
@@ -152,6 +148,7 @@ function Pizza() {
           value="ranch"
           name="sauce"
           onChange={handleFormChange}
+          checked={formState.sauce ==="ranch"}
         ></input>
       </label>
 
@@ -268,8 +265,7 @@ function Pizza() {
           onChange={handleFormChange}
         />
       </label>
-      <pre>{JSON.stringify(databaseResponse, null, 2)}</pre>
-      <button disabled={buttonDisabled}>Submit Deliciousness!</button>
+      <button data-cy="submit" disabled={buttonDisabled}>Submit Deliciousness!</button>
     </form>
   );
 }
