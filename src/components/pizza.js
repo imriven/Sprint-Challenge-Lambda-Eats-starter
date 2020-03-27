@@ -156,7 +156,7 @@ function Pizza() {
         Choose up to Ten Toppings:
         <input
           type="checkbox"
-          data-cy=""
+          data-cy="pe"
           name="pepperoni"
           checked={formState.pepperoni}
           
@@ -164,91 +164,91 @@ function Pizza() {
         Pepperoni
         <input
           type="checkbox"
-          data-cy=""
+          data-cy="sausage"
           name="sausage"
           checked={formState.sausage}
         />
         Sausage
         <input
           type="checkbox"
-          data-cy=""
+          data-cy="bacon"
           name="bacon"
           checked={formState.bacon}
         />
         Canadian Bacon
         <input
           type="checkbox"
-          data-cy=""
+          data-cy="chicken"
           name="chicken"
           checked={formState.chicken}
         />
         Grilled Chicken
         <input
           type="checkbox"
-          data-cy=""
+          data-cy="egg"
           name="egg"
           checked={formState.egg}
         />
         Boiled Eggs
         <input
           type="checkbox"
-          data-cy=""
+          data-cy="oysters"
           name="oysters"
           checked={formState.oysters}
         />
         Oysters
         <input
           type="checkbox"
-          data-cy=""
+          data-cy="shrimp"
           name="shrimp"
           checked={formState.shrimp}
         />
         Shrimp
         <input
           type="checkbox"
-          data-cy=""
+          data-cy="calamari"
           name="calamari"
           checked={formState.calamari}
         />
         Calamari
         <input
           type="checkbox"
-          data-cy=""
+          data-cy="mozzerella"
           name="mozzarella"
           checked={formState.mozzarella}
         />
         Fried Mozzarella Sticks
         <input
           type="checkbox"
-          data-cy=""
+          data-cy="onions"
           name="onions"
           checked={formState.onions}
         />
         Onions
         <input
           type="checkbox"
-          data-cy=""
+          data-cy="peppers"
           name="peppers"
           checked={formState.peppers}
         />
         Tri-Peppers (orange, yellow, red)
         <input
           type="checkbox"
-          data-cy=""
+          data-cy="pineapple"
           name="pineapple"
           checked={formState.pineapple}
         />
         Pineapple
         <input
           type="checkbox"
-          data-cy=""
+          data-cy="spinach"
           name="spinach"
           checked={formState.spinach}
         />
         Spinach
         <input
           type="checkbox"
-          data-cy=""
+          data-cy="artichoke"
           name="artichoke"
           checked={formState.artichoke}
         />
@@ -259,6 +259,7 @@ function Pizza() {
         Special Instructions
         <textarea
           id="instructions"
+          data-cy="instructions"
           name="instructions"
           placeholder="Is there anything else you need?"
           value={formState.instructions}
